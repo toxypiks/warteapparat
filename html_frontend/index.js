@@ -13,3 +13,15 @@ function httpGet() {
 		xmlHttp.open("GET", endpoint, true);
 		xmlHttp.send(null);
 }
+
+function httpStateGet() {
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("display_state").value = this.responseText;
+				}
+		};
+		var endpoint = "http://127.0.0.1:5000/state";
+		xmlHttp.open("GET", endpoint, true);
+		xmlHttp.send(null);
+}
