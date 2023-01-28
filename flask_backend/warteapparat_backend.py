@@ -26,3 +26,10 @@ def get_a_number():
 def get_state():
     state_count = counter.value
     return "{}".format(state_count)       
+
+
+@app.route("/inc_state")
+def get_state_and_increment():
+    state_count = counter.value
+    increment_state()
+    return "{}".format(state_count)
