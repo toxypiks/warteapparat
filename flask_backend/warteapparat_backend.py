@@ -1,6 +1,6 @@
 #/usr/bin/python3
 
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from multiprocessing import Value
 import random
@@ -8,6 +8,7 @@ import random
 app = Flask(__name__)
 CORS(app)
 counter = Value('i',0)
+sec_counter = Value('i',0)
 
 
 def increment_state():
@@ -33,3 +34,27 @@ def get_state_and_increment():
     state_count = counter.value
     increment_state()
     return "{}".format(state_count)
+
+#does not work yet
+@app.route("/post_sec_state")
+def post_to_sec_state():
+    value = request.form.get("test")
+    with sec_counter.get_lock():
+        sec_counter.value += value
+
+
+@app.route("/add_sec_state")
+def add_to_sec_state():
+    for i in range(0, 5):
+        if sec_counter.value < (counter.value - 1):
+            with sec_counter.get_lock():
+                sec_counter.value += 1
+    latest_counter = sec_counter.value
+    return "{}".format(latest_counter)
+
+
+@app.route("/get_sec_state")
+def get_latest_sec_state():
+    latest_sec_state = sec_counter.value
+    return "{}".format(latest_sec_state)
+
