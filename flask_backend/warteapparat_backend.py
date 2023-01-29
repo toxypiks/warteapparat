@@ -4,6 +4,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from multiprocessing import Value
 import random
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -35,13 +36,14 @@ def get_state_and_increment():
     increment_state()
     return "{}".format(state_count)
 
-#does not work yet
-@app.route("/post_sec_state")
+@app.route("/post_sec_state", methods=['POST'])
 def post_to_sec_state():
-    value = request.form.get("test")
+    content = request.json
+    value = content["2nd_state"]
+    print("debug: {} json: {}".format(value,content))
     with sec_counter.get_lock():
         sec_counter.value += value
-
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 @app.route("/add_sec_state")
 def add_to_sec_state():
