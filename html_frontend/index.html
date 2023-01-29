@@ -8,24 +8,24 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <script src="api_functions.js"></script>
     <h1>TestHTML</h1>
-    <button type="button" onclick="httpGetRandomNumber()">Show Random Number</button>
+    <button type="button" id="random_number">Show Random Number</button>
     <input type="text" id="inputfield">
-    <button type="button" onclick="httpGetState()">Get State</button>
+    <button type="button" id="get_state">Get State</button>
     <input type="text" id="display_state">
-    <button type="button" onclick="httpGetStateAndIncrement()">Get State and Increment</button>
+    <button type="button" id="get_state_increment">Get State and Increment</button>
     <input type="text" id="display_and_increment_state">
     <br>
     <br>
     <h4>Type a number to set second state:</h4>
     <input type="text" id="second_state_input">
-    <button type="button" onclick="httpPostInputNumber()">Send Input</button>
+    <button type="button" id="post_input_number">Send Input</button>
     <br>
     <br>
-    <button type="button" onclick="httpGetSecondState()">Show second State</button>
+    <button type="button" id="get_second_state">Show second State</button>
     <input type="text" id="second_state_output">
-    <button type="button" onclick="httpGetSecondIncreasedState()">Increase by 5</button>
+    <button type="button" id="get_second_increased_state">Increase by 5</button>
     <input type="text" id="show_increased_sec_state">
+    <script src="api_functions.js"></script>
   </body>
 </html>

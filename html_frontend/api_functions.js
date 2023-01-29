@@ -49,3 +49,27 @@ function httpGetState() {
 function httpGetStateAndIncrement() {
     httpGet("inc_state", "display_and_increment_state");
 }
+
+document.getElementById("random_number").onclick = function() {
+    httpGetRandomNumber();
+};
+
+document.getElementById("get_state").onclick = function() {
+    httpGetState();
+};
+
+document.getElementById("get_state_increment").onclick = function() {
+    httpGetStateAndIncrement();
+};
+
+document.getElementById("post_input_number").onclick = function() {
+    httpPostInputNumber();
+};
+
+document.getElementById("get_second_state").onclick = function() {
+    httpGetSecondState();
+};
+
+document.getElementById("get_second_increased_state").onclick = function() {
+    httpGetSecondIncreasedState();
+};
