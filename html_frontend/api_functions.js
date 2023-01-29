@@ -17,3 +17,7 @@ function httpGetRandomNumber() {
 function httpGetState() {
     httpGet("state", "display_state");
 }
+
+function httpGetStateAndIncrement() {
+    httpGet("inc_state", "display_and_increment_state");
+}
