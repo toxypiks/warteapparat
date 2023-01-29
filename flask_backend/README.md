@@ -2,8 +2,8 @@
 - clone repo and go into folder
 - create virtual environment:
   - `python3 -m venv env`
-- install flask:
-  - `pip install Flask`
+- install dependencies:
+  - `pip install -r requirements.txt`
 # Usage
 - start virtual environment:
   - `source env/bin/activate`
