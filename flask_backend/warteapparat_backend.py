@@ -70,3 +70,15 @@ def get_latest_sec_state():
     latest_sec_state = sec_counter.value
     return "{}".format(latest_sec_state)
 
+
+@app.route("/pick_up_pizza", methods=['POST'])
+def pick_up_pizza():
+    req_pizza = request.json
+    pizza_id = req_pizza["pizza"]
+    if pizza_id in states:
+        states[pizza_id] = True
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        
+    
+    
+
