@@ -1,3 +1,11 @@
+function outputToConsole(text) {
+    var para = document.createElement("p");
+    var node = document.createTextNode(text);
+    para.appendChild(node);
+    document.getElementById("console").appendChild(para);
+    para.scrollIntoView();
+}
+
 function httpGet(endpoint_name, display_element_name) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -50,6 +58,8 @@ function httpGetStateAndIncrement() {
     httpGet("inc_state", "display_and_increment_state");
 }
 
+outputToConsole("init");
+
 document.getElementById("random_number").onclick = function() {
     httpGetRandomNumber();
 };
@@ -73,3 +83,5 @@ document.getElementById("get_second_state").onclick = function() {
 document.getElementById("get_second_increased_state").onclick = function() {
     httpGetSecondIncreasedState();
 };
+
+outputToConsole("running...");
