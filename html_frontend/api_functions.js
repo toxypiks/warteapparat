@@ -38,6 +38,10 @@ function httpPostInputNumber() {
     httpPost("post_sec_state", "second_state_input", param_name, param_value);
 }
 
+function httpGetAllStates() {
+    httpGet("get_all_states", "show_all_states");
+}
+
 function httpGetSecondState() {
     httpGet("get_sec_state", "second_state_output","second state: ");
 }
@@ -70,6 +74,10 @@ document.getElementById("get_state").onclick = function() {
 
 document.getElementById("get_state_increment").onclick = function() {
     httpGetStateAndIncrement();
+};
+
+document.getElementById("get_all_states").onclick = function() {
+    httpGetAllStates();
 };
 
 document.getElementById("post_input_number").onclick = function() {
