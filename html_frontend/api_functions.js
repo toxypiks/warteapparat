@@ -6,11 +6,11 @@ function outputToConsole(text) {
     para.scrollIntoView();
 }
 
-function httpGet(endpoint_name, display_element_name) {
+function httpGet(endpoint_name, display_element_name, variable_context) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById(display_element_name).value = this.responseText;
+            outputToConsole(variable_context + this.responseText);
         }
     };
     var endpoint = "http://127.0.0.1:5000/" + endpoint_name;
@@ -18,11 +18,11 @@ function httpGet(endpoint_name, display_element_name) {
     xmlHttp.send(null);
 }
 
-function httpPost(endpoint_name, input_element_name, param_name, param_value) {
+function httpPost(endpoint_name, input_element_name, param_name, param_value, variable_context) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            alert(this.responseText);
+            outputToConsole(variable_context + this.responseText);
         }
     };
     var endpoint = "http://127.0.0.1:5000/" + endpoint_name;
@@ -39,23 +39,23 @@ function httpPostInputNumber() {
 }
 
 function httpGetSecondState() {
-    httpGet("get_sec_state", "second_state_output");
+    httpGet("get_sec_state", "second_state_output","second state: ");
 }
 
 function httpGetSecondIncreasedState() {
-    httpGet("add_sec_state", "show_increased_sec_state");
+    httpGet("add_sec_state", "show_increased_sec_state", "increased second state: ");
 }
 
 function httpGetRandomNumber() {
-    httpGet("","inputfield");  
+    httpGet("","inputfield","random number: ");  
 }
 
 function httpGetState() {
-    httpGet("state", "display_state");
+    httpGet("state", "display_state", "state: ");
 }
 
 function httpGetStateAndIncrement() {
-    httpGet("inc_state", "display_and_increment_state");
+    httpGet("inc_state", "display_and_increment_state", "state and increment: ");
 }
 
 outputToConsole("init");
