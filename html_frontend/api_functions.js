@@ -6,6 +6,10 @@ function outputToConsole(text) {
     para.scrollIntoView();
 }
 
+function clearConsole() {
+    document.getElementById("console").innerHTML = "";
+}
+
 function httpGet(endpoint_name, display_element_name, variable_context) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -100,6 +104,10 @@ document.getElementById("get_second_increased_state").onclick = function() {
 
 document.getElementById("pick_up_pizza").onclick = function() {
     httpPostPizzaId();
+};
+
+document.getElementById("clear_console").onclick = function() {
+    clearConsole();
 };
 
 outputToConsole("running...");
