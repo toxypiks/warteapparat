@@ -38,6 +38,10 @@ function httpPostInputNumber() {
     httpPost("post_sec_state", "second_state_input", param_name, param_value);
 }
 
+function httpGetAllStates() {
+    httpGet("get_all_states", "show_all_states");
+}
+
 function httpGetSecondState() {
     httpGet("get_sec_state", "second_state_output","second state: ");
 }
@@ -58,6 +62,12 @@ function httpGetStateAndIncrement() {
     httpGet("inc_state", "display_and_increment_state", "state and increment: ");
 }
 
+function httpPostPizzaId() {
+    var param_value = document.getElementById("post_pizza_id").value;
+    var param_name = "pizza";
+    httpPost("pick_up_pizza", "post_pizza_id", param_name, param_value);
+}
+
 outputToConsole("init");
 
 document.getElementById("random_number").onclick = function() {
@@ -72,6 +82,10 @@ document.getElementById("get_state_increment").onclick = function() {
     httpGetStateAndIncrement();
 };
 
+document.getElementById("get_all_states").onclick = function() {
+    httpGetAllStates();
+};
+
 document.getElementById("post_input_number").onclick = function() {
     httpPostInputNumber();
 };
@@ -82,6 +96,10 @@ document.getElementById("get_second_state").onclick = function() {
 
 document.getElementById("get_second_increased_state").onclick = function() {
     httpGetSecondIncreasedState();
+};
+
+document.getElementById("pick_up_pizza").onclick = function() {
+    httpPostPizzaId();
 };
 
 outputToConsole("running...");
