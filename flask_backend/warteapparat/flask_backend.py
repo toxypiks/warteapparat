@@ -78,7 +78,13 @@ def pick_up_pizza():
     if pizza_id in states:
         states[pizza_id] = True
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
-        
-    
+
+
+def main():
+    app.run(debug=True, port=5000, host='0.0.0.0')    
+
+
+if __name__ == '__main__':
+    main()
     
 
