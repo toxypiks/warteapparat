@@ -1,0 +1,5 @@
+#! /usr/bin/python
+
+from warteapparat import flask_backend
+
+flask_backend.main()
