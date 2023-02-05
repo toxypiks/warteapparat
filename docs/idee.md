@@ -10,36 +10,49 @@
 - Backend: Python Flask, Endpoints (get,update,post,delete),
 ## Optional Technologies:
 - Datenbank mit postgres, psychopg2 
+# Structure of Application
+```
+leute stehen an                 Anzeige(server)        Busfahrer,Pizzalieferant
+neue Nummer                      zeigt State an               ich nehm leute mit
+                    state: order_state               state:deliver_state
+ get_number <-------->                            <------>
+```
 # Backlog
-  - Ordner mit HTML Skript mit README.md,
-  - wie zustand(state in flask zwischen endpoints halten?
 - documentation in Bildchen
   - use case diagram
   - sequenzdiagram vom Ablauf
 - Documentation:
   Schema Front/Backend interaction (simple)
   - curl aufruf zum testen (Bild malen)
-- Debugconsole im HTML
-  - Funktion um zeilen hinzuzufügen ("debugprint("Error")")
 - Naming 
   - 1.state was macht der?
     - zählt requests (immer wenn Zettel gezogen wird)
   - 2. state was macht der?
     - repäsentiert der wieviel aktuel abgeholt wurd 
 	- "taken_items"
-- interne zuordnung IDs (zahlen per request) und einer Tabelle-> abgeholt
-  - neue Endpoints 
-     mit nem Post -> Update?? 
-	 dictionary mit Id : true und false	
-	 - get für alle ids im dictionary + zustand
-	 - können wir ausgeben in unserer debugprint
 - kleine Pizza im Frontend (maybe) ;)
 - wie könnte man das mit `python warteapparat_backend.py`
   - starten, sodass der shell befehl zum flask starten im Python skript ausgeführt wird
 - python package 
   - Requirements setup.py
+- Random test funktion löschen
+- get number -> eindeutige id (aufsteigend, unique)
+  - in dict speichern (order_state - number)
+- was ist mit Menschen nicht abgeholt haben, nummer verbummelt???
+  - in dictionare zeitstempel mit speichern
+  - mechanismus der, wenn 1min(parameter) nicht abgeholt, nummer invalid
+  - ```
+1 2 3 4 5 6
+T I T T F F  -> wie lang is schlange? schlange ist 3 lang
+```
+    - wieviele "ordered" sind noch im dict 
+  - zeitliche Abfolge mit Futures, Multitastking
+    - oder man macht zweiten thread der checkt wer is über die Zeit und dann invalid macht
+    - 3 zustände kann man mit enum machen (orderer, picked_up, invalid) 
+
 # Ausblick
 - Anbindung Datenbank
+- Wartzeit estimation, wie lange dauerts bis zur Pizza
 
 
 # History
@@ -58,3 +71,20 @@
 - Second state Variable (wieviel Leute abgeholt wurden)
   - weitere Endpoints "BussfahrerEndpoint" - hol jetzt 5 Leute ab
   - POst request mittels JSon
+- Debugconsole im HTML
+  - Funktion um zeilen hinzuzufügen ("debugprint("Error")")
+- interne zuordnung IDs (zahlen per request) und einer Tabelle-> abgeholt
+  - neue Endpoints 
+     mit nem Post -> Update?? 
+	 dictionary mit Id : true und false	
+  - get für alle ids im dictionary + zustand
+  - können wir ausgeben in unserer debugprint
+- Ordner mit HTML Skript mit README.md,
+  - HTML_frontend
+- wie zustand(state in flask zwischen endpoints halten?
+  - multiprocesssing.Value
+- curl aufruf zum testen:
+  `curl --request GET http://127.0.0.1:5000/state`
+  `curl -H "Content-Type: application/json" --request POST -d '{"2nd_state":2}' "http://localhost:5000/post_sec_state"`
+  `curl --request GET http://127.0.0.1:5000/add_sec_state`
+  `curl --request GET http://127.0.0.1:5000/get_sec_state`	
