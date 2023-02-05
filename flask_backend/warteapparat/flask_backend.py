@@ -5,20 +5,21 @@ from flask_cors import CORS
 from multiprocessing import Value
 import random
 import json
+import uuid
 
 app = Flask(__name__)
 CORS(app)
-counter = Value('i',0)
-sec_counter = Value('i',0)
+counter = Value('i', 0)
+sec_counter = Value('i', 0)
 states = {}
 
 
 def increment_state_and_add_to_dict():
+    id = str(uuid.uuid4())
     with counter.get_lock():
         counter.value += 1
-        states[counter.value] = False
+        states[counter.value] = (False, id)
         
-
         
 @app.route("/")
 def get_a_number():
