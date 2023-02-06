@@ -6,6 +6,7 @@ from multiprocessing import Value
 import random
 import json
 import uuid
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -16,9 +17,13 @@ states = {}
 
 def increment_state_and_add_to_dict():
     id = str(uuid.uuid4())
+    current_time = datetime.now()
+    time_stamp = current_time.timestamp()
+    date_time = datetime.fromtimestamp(time_stamp)
+    str_date_time = date_time.strftime("%d-%m-%Y, %H:%M:%S")
     with counter.get_lock():
         counter.value += 1
-        states[counter.value] = (False, id)
+        states[counter.value] = (id, str_date_time, False)
         
         
 @app.route("/")
