@@ -6,6 +6,7 @@ from multiprocessing import Value
 import json
 import uuid
 from datetime import datetime
+from enum import Enum
 
 app = Flask(__name__)
 CORS(app)
@@ -13,6 +14,12 @@ counter = Value('i', 0)
 sec_counter = Value('i', 0)
 states = {}
 
+
+class OrderState(Enum):
+    ORDERED = 1
+    PICKEDUP = 2
+    INVALID = 3
+    
 
 def increment_state_and_add_to_dict():
     id = str(uuid.uuid4())
@@ -22,7 +29,7 @@ def increment_state_and_add_to_dict():
     str_date_time = date_time.strftime("%d-%m-%Y, %H:%M:%S")
     with counter.get_lock():
         counter.value += 1
-        states[counter.value] = (id, str_date_time, False)
+        states[counter.value] = {"id": id, "date": str_date_time, "state": OrderState.ORDERED}
 
         
 @app.route("/state")
@@ -74,7 +81,7 @@ def pick_up_pizza():
     req_pizza = request.json
     pizza_id = req_pizza["pizza"]
     if pizza_id in states:
-        states[pizza_id] = True
+        states[pizza_id]['state'] = OrderState.PICKEDUP
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 
