@@ -7,6 +7,9 @@ import json
 import uuid
 from datetime import datetime
 from enum import Enum
+from concurrent.futures import ThreadPoolExecutor
+from time import sleep
+
 
 app = Flask(__name__)
 CORS(app)
@@ -30,6 +33,11 @@ def increment_state_and_add_to_dict():
     with counter.get_lock():
         counter.value += 1
         states[counter.value] = {"id": id, "date": str_date_time, "state": OrderState.ORDERED}
+
+        
+def return_message_after_5_sec(message):
+    sleep(5)
+    return message
 
         
 @app.route("/state")
@@ -84,6 +92,12 @@ def pick_up_pizza():
         states[pizza_id]['state'] = OrderState.PICKEDUP
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
+
+@app.route("/get_message")
+def get_the_message():
+    pool = ThreadPoolExecutor(3)
+    future = pool.submit(return_message_after_5_sec("Works!"))
+    return str(future.done())
 
 def main():
     app.run(debug=True, port=5000, host='0.0.0.0')    

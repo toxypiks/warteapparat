@@ -68,6 +68,10 @@ function httpPostPizzaId() {
     httpPost("pick_up_pizza", "post_pizza_id", param_name, param_value);
 }
 
+function httpGetTheMessage() {
+    httpGet("get_message","test" ,"the message: ")
+}
+
 outputToConsole("init");
 
 document.getElementById("get_state").onclick = function() {
@@ -100,6 +104,10 @@ document.getElementById("pick_up_pizza").onclick = function() {
 
 document.getElementById("clear_console").onclick = function() {
     clearConsole();
+};
+
+document.getElementById("future_message").onclick = function() {
+    httpGetTheMessage();
 };
 
 outputToConsole("running...");
