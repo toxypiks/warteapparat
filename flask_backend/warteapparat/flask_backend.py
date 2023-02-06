@@ -3,7 +3,6 @@
 from flask import Flask, request
 from flask_cors import CORS
 from multiprocessing import Value
-import random
 import json
 import uuid
 from datetime import datetime
@@ -24,15 +23,8 @@ def increment_state_and_add_to_dict():
     with counter.get_lock():
         counter.value += 1
         states[counter.value] = (id, str_date_time, False)
-        
-        
-@app.route("/")
-def get_a_number():
-    increment_state_and_add_to_dict()
-    random_number = random.randint(0,9)
-    return "{}".format(random_number)
 
-
+        
 @app.route("/state")
 def get_state():
     state_count = counter.value
@@ -92,5 +84,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
-
