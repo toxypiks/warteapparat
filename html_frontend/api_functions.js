@@ -54,10 +54,6 @@ function httpGetSecondIncreasedState() {
     httpGet("add_sec_state", "show_increased_sec_state", "increased second state: ");
 }
 
-function httpGetRandomNumber() {
-    httpGet("","inputfield","random number: ");  
-}
-
 function httpGetState() {
     httpGet("state", "display_state", "state: ");
 }
@@ -73,10 +69,6 @@ function httpPostPizzaId() {
 }
 
 outputToConsole("init");
-
-document.getElementById("random_number").onclick = function() {
-    httpGetRandomNumber();
-};
 
 document.getElementById("get_state").onclick = function() {
     httpGetState();
