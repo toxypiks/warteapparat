@@ -10,7 +10,7 @@ function clearConsole() {
     document.getElementById("console").innerHTML = "";
 }
 
-function httpGet(endpoint_name, display_element_name, variable_context) {
+function httpGet(endpoint_name, variable_context) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -22,7 +22,7 @@ function httpGet(endpoint_name, display_element_name, variable_context) {
     xmlHttp.send(null);
 }
 
-function httpPost(endpoint_name, input_element_name, param_name, param_value, variable_context) {
+function httpPost(endpoint_name, param_name, param_value, variable_context) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -39,33 +39,33 @@ function httpPost(endpoint_name, input_element_name, param_name, param_value, va
 function httpPostInputNumber() {
     var param_value = document.getElementById("second_state_input").value;
     var param_name = "2nd_state";
-    httpPost("post_sec_state", "second_state_input", param_name, param_value);
+    httpPost("post_sec_state", param_name, param_value);
 }
 
 function httpGetAllStates() {
-    httpGet("get_all_states", "show_all_states");
+    httpGet("get_all_states", "all states: ");
 }
 
 function httpGetSecondState() {
-    httpGet("get_sec_state", "second_state_output","second state: ");
+    httpGet("get_sec_state", "second state: ");
 }
 
 function httpGetSecondIncreasedState() {
-    httpGet("add_sec_state", "show_increased_sec_state", "increased second state: ");
+    httpGet("add_sec_state", "increased second state: ");
 }
 
 function httpGetState() {
-    httpGet("state", "display_state", "state: ");
+    httpGet("state", "state: ");
 }
 
 function httpGetStateAndIncrement() {
-    httpGet("inc_state", "display_and_increment_state", "state and increment: ");
+    httpGet("inc_state", "state and increment: ");
 }
 
 function httpPostPizzaId() {
     var param_value = document.getElementById("post_pizza_id").value;
     var param_name = "pizza";
-    httpPost("pick_up_pizza", "post_pizza_id", param_name, param_value);
+    httpPost("pick_up_pizza", param_name, param_value);
 }
 
 outputToConsole("init");
