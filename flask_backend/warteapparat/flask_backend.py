@@ -29,8 +29,8 @@ def place_order_fn():
     str_date_time = date_time.strftime("%Y-%m-%d %H:%M:%S")
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
     cur = conn.cursor()
-    cur.execute("INSERT INTO orders (order_time, state) VALUES (%s, %s) RETURNING order_id",
-                (str_date_time, 'ORDERED'))
+    cur.execute("INSERT INTO orders (order_time, state) VALUES ('{}', '{}') RETURNING order_id"
+                .format(str_date_time, 'ORDERED'))
     order_uuid = cur.fetchone()[0]
     conn.commit()
     cur.close()
@@ -46,6 +46,16 @@ def get_all_orders_fn():
     cur.close()
     conn.close()
     return "{}".format(records)
+
+
+def change_order_state_fn(order_uuid):
+    conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
+    cur = conn.cursor()                                                                    
+    cur.execute("UPDATE orders SET state = 'PICKEDUP' WHERE order_id = '{}';".format(order_uuid))
+    conn.commit()
+    cur.close()                                                                            
+    conn.close()                                                                           
+    return "ok"
 
 
 @app.route("/state")
@@ -92,12 +102,11 @@ def get_latest_sec_state():
     return "{}".format(latest_sec_state)
 
 
-@app.route("/pick_up_pizza", methods=['POST'])
-def pick_up_pizza():
-    req_pizza = request.json
-    pizza_id = req_pizza["pizza"]
-    if pizza_id in states:
-        states[pizza_id]['state'] = OrderState.PICKEDUP
+@app.route("/change_order_state", methods=['POST'])
+def change_order_state():
+    req_uuid = request.json
+    order_uuid = req_uuid["order_uuid"]
+    change_order_state_fn(order_uuid)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 
