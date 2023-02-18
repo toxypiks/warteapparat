@@ -42,8 +42,8 @@ function httpPostInputNumber() {
     httpPost("post_sec_state", param_name, param_value);
 }
 
-function httpGetAllStates() {
-    httpGet("get_all_states", "all states: ");
+function httpGetAllOrders() {
+    httpGet("get_all_orders", "all orders: ");
 }
 
 function httpGetSecondState() {
@@ -58,8 +58,8 @@ function httpGetState() {
     httpGet("state", "state: ");
 }
 
-function httpGetStateAndIncrement() {
-    httpGet("inc_state", "state and increment: ");
+function httpPlaceOrder() {
+    httpGet("place_order", "place_order: ");
 }
 
 function httpPostPizzaId() {
@@ -74,12 +74,12 @@ document.getElementById("get_state").onclick = function() {
     httpGetState();
 };
 
-document.getElementById("get_state_increment").onclick = function() {
-    httpGetStateAndIncrement();
+document.getElementById("place_order").onclick = function() {
+    httpPlaceOrder();
 };
 
-document.getElementById("get_all_states").onclick = function() {
-    httpGetAllStates();
+document.getElementById("get_all_orders").onclick = function() {
+    httpGetAllOrders();
 };
 
 document.getElementById("post_input_number").onclick = function() {

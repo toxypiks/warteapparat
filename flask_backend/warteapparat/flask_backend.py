@@ -1,6 +1,6 @@
 #/usr/bin/python3
 
-from flask import Flask, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from multiprocessing import Value
 import json
@@ -20,20 +20,32 @@ class OrderState(Enum):
     ORDERED = 1
     PICKEDUP = 2
     INVALID = 3
-    
 
-def increment_state_and_add_to_dict():
+    
+def place_order_fn():
     current_time = datetime.now()                          
     time_stamp = current_time.timestamp()                  
     date_time = datetime.fromtimestamp(time_stamp)          
     str_date_time = date_time.strftime("%Y-%m-%d %H:%M:%S")
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
     cur = conn.cursor()
-    cur.execute("INSERT INTO orders (order_time, state) VALUES (%s, %s)",
+    cur.execute("INSERT INTO orders (order_time, state) VALUES (%s, %s) RETURNING order_id",
                 (str_date_time, 'ORDERED'))
+    order_uuid = cur.fetchone()[0]
     conn.commit()
     cur.close()
     conn.close()
+    return jsonify(order_uuid)
+
+
+def get_all_orders_fn():
+    conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM orders")
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return "{}".format(records)
 
 
 @app.route("/state")
@@ -42,16 +54,16 @@ def get_state():
     return "{}".format(state_count)       
 
 
-@app.route("/get_all_states")
-def get_all_states():
-    return "{}".format(states)
+@app.route("/get_all_orders")
+def get_all_orders():
+    return_json = get_all_orders_fn()
+    return return_json
 
 
-@app.route("/inc_state")
-def get_state_and_increment():
-    state_count = counter.value
-    increment_state_and_add_to_dict()
-    return "{}".format(state_count)
+@app.route("/place_order")
+def place_order():
+    return_json = place_order_fn()
+    return return_json
 
 
 @app.route("/post_sec_state", methods=['POST'])
