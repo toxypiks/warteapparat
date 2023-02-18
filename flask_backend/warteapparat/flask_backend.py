@@ -5,6 +5,7 @@ from flask_cors import CORS
 from multiprocessing import Value
 import json
 import uuid
+import psycopg2
 from datetime import datetime
 from enum import Enum
 
@@ -22,16 +23,19 @@ class OrderState(Enum):
     
 
 def increment_state_and_add_to_dict():
-    id = str(uuid.uuid4())
-    current_time = datetime.now()
-    time_stamp = current_time.timestamp()
-    date_time = datetime.fromtimestamp(time_stamp)
-    str_date_time = date_time.strftime("%d-%m-%Y, %H:%M:%S")
-    with counter.get_lock():
-        counter.value += 1
-        states[counter.value] = {"id": id, "date": str_date_time, "state": OrderState.ORDERED}
+    current_time = datetime.now()                          
+    time_stamp = current_time.timestamp()                  
+    date_time = datetime.fromtimestamp(time_stamp)          
+    str_date_time = date_time.strftime("%Y-%m-%d %H:%M:%S")
+    conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
+    cur = conn.cursor()
+    cur.execute("INSERT INTO orders (order_time, state) VALUES (%s, %s)",
+                (str_date_time, 'ORDERED'))
+    conn.commit()
+    cur.close()
+    conn.close()
 
-        
+
 @app.route("/state")
 def get_state():
     state_count = counter.value
