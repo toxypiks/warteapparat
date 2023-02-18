@@ -32,7 +32,7 @@ function httpPost(endpoint_name, param_name, param_value, variable_context) {
     var endpoint = "http://127.0.0.1:5000/" + endpoint_name;
     xmlHttp.open("POST", endpoint, true);
     xmlHttp.setRequestHeader('Content-type', 'application/json');
-    var param_json = "{ \"" + param_name + "\" : " + param_value + " }"
+    var param_json = "{ \"" + param_name + "\" : \"" + param_value + "\" }"
     xmlHttp.send(param_json);
 }
 
@@ -62,10 +62,10 @@ function httpPlaceOrder() {
     httpGet("place_order", "place_order: ");
 }
 
-function httpPostPizzaId() {
-    var param_value = document.getElementById("post_pizza_id").value;
-    var param_name = "pizza";
-    httpPost("pick_up_pizza", param_name, param_value);
+function httpPostChangeOrderState() {
+    var param_value = document.getElementById("uuid_input").value;
+    var param_name = "order_uuid";
+    httpPost("change_order_state", param_name, param_value);
 }
 
 outputToConsole("init");
@@ -94,8 +94,8 @@ document.getElementById("get_second_increased_state").onclick = function() {
     httpGetSecondIncreasedState();
 };
 
-document.getElementById("pick_up_pizza").onclick = function() {
-    httpPostPizzaId();
+document.getElementById("change_order_state").onclick = function() {
+    httpPostChangeOrderState();
 };
 
 document.getElementById("clear_console").onclick = function() {
