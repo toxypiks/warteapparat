@@ -18,12 +18,28 @@ neue Nummer                      zeigt State an               ich nehm leute mit
  get_number <-------->                            <------>
 ```
 # Backlog
+- wieviel sind noch in der datenbank auf ORDERED ?
+  - funktion dafür implementieren im backend
+    - zum testen auch im frontend
+- endpoint
+  - der checked ob Einträge die auf Ordered sind älter sind als eine Zeit t
+    - wenn das so ist setze diese auf Invalid
+- können wir sowas wie ne konfiguration mit einbauen
+  - python backend.py my.config
+    - Beispiel: https://github.com/majorx234/python-flask-restx-game-ratings
+      - environment.py
 - documentation in Bildchen
   - use case diagram
   - sequenzdiagram vom Ablauf
 - Documentation:
   Schema Front/Backend interaction (simple)
   - curl aufruf zum testen (Bild malen)
+
+- for near Zukunft
+  - eigentlich brauhcen wir zwei frontends
+    - eins für die Benutzer
+	- eins für Pizzabäcker
+
 - Naming 
   - 1.state was macht der?
     - zählt requests (immer wenn Zettel gezogen wird)
@@ -35,17 +51,16 @@ neue Nummer                      zeigt State an               ich nehm leute mit
   - starten, sodass der shell befehl zum flask starten im Python skript ausgeführt wird
 - python package 
   - Requirements setup.py
-- Random test funktion löschen
-- get number -> eindeutige id (aufsteigend, unique)
-  - in dict speichern (order_state - number)
 - was ist mit Menschen nicht abgeholt haben, nummer verbummelt???
-  - in dictionare zeitstempel mit speichern
   - mechanismus der, wenn 1min(parameter) nicht abgeholt, nummer invalid
   - ```
 1 2 3 4 5 6
-T I T T F F  -> wie lang is schlange? schlange ist 3 lang
+T I T F F F -> wie lang is schlange? schlange ist 3 lang
 ```
-    - wieviele "ordered" sind noch im dict 
+  - F -Ordered
+    T -Picked up
+	I -hats verschlafen
+    - wieviele "ordered" sind noch im dict? 
   - zeitliche Abfolge mit Futures, Multitastking
     - oder man macht zweiten thread der checkt wer is über die Zeit und dann invalid macht
     - 3 zustände kann man mit enum machen (orderer, picked_up, invalid) 
