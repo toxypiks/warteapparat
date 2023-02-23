@@ -44,6 +44,16 @@ def get_all_orders_fn():
     return "{}".format(records)
 
 
+def get_num_of_ordered_orders_fn():
+    conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM orders WHERE state = 'ORDERED'")
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return "{}".format(records)
+    
+
 def change_order_state_fn(order_uuid):
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
     cur = conn.cursor()                                                                    
@@ -57,6 +67,12 @@ def change_order_state_fn(order_uuid):
 @app.route("/get_all_orders")
 def get_all_orders():
     return_json = get_all_orders_fn()
+    return return_json
+
+
+@app.route("/get_num_of_ordered_orders")
+def get_num_of_ordered_orders():
+    return_json = get_num_of_ordered_orders_fn()
     return return_json
 
 
