@@ -71,6 +71,16 @@ def change_order_state_fn(order_uuid):
     return "ok"
 
 
+def change_order_state_to_invalid_fn():
+    conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
+    cur = conn.cursor()                                                                    
+    cur.execute("UPDATE orders SET state = 'INVALID' WHERE (EXTRACT (EPOCH FROM (CURRENT_TIMESTAMP - order_time))) > 300")
+    conn.commit()
+    cur.close()  
+    conn.close()                                                                            
+    return "ok"
+
+
 @app.route("/get_all_orders")
 def get_all_orders():
     orders_json = get_all_orders_fn()
@@ -95,6 +105,12 @@ def change_order_state():
     order_uuid = req_uuid["order_uuid"]
     change_order_state_fn(order_uuid)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+
+@app.route("/change_order_state_to_invalid")
+def change_order_state_to_invalid():
+    return_json = change_order_state_to_invalid_fn()
+    return return_json
 
 
 def main():
