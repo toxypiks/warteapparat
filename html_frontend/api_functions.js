@@ -40,6 +40,10 @@ function httpGetAllOrders() {
     httpGet("get_all_orders", "all orders: ");
 }
 
+function httpGetNumOfOrderedOrders() {
+    httpGet("get_num_of_ordered_orders", "num of ordered orders: ");
+}
+
 function httpPlaceOrder() {
     httpGet("place_order", "place_order: ");
 }
@@ -58,6 +62,10 @@ document.getElementById("place_order").onclick = function() {
 
 document.getElementById("get_all_orders").onclick = function() {
     httpGetAllOrders();
+};
+
+document.getElementById("get_num_of_ordered_orders").onclick = function() {
+    httpGetNumOfOrderedOrders();
 };
 
 document.getElementById("change_order_state").onclick = function() {
