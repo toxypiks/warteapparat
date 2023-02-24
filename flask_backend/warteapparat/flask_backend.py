@@ -74,7 +74,9 @@ def change_order_state_fn(order_uuid):
 def change_order_state_to_invalid_fn():
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
     cur = conn.cursor()                                                                    
+
     cur.execute("UPDATE orders SET state = 'INVALID' WHERE state = 'ORDERED' AND (EXTRACT (EPOCH FROM (CURRENT_TIMESTAMP - order_time))) > 300")
+
     conn.commit()
     cur.close()  
     conn.close()                                                                            
