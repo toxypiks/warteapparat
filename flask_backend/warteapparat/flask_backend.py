@@ -4,8 +4,15 @@ import json
 import psycopg2
 from datetime import datetime
 from enum import Enum
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
+
+class DateEncoder(json.JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
 
 
 app = Flask(__name__)
@@ -41,7 +48,7 @@ def get_all_orders_fn():
     records = cur.fetchall()
     cur.close()
     conn.close()
-    return "{}".format(records)
+    return json.dumps(records, cls=DateEncoder)
 
 
 def get_num_of_ordered_orders_fn():
@@ -66,8 +73,8 @@ def change_order_state_fn(order_uuid):
 
 @app.route("/get_all_orders")
 def get_all_orders():
-    return_json = get_all_orders_fn()
-    return return_json
+    orders_json = get_all_orders_fn()
+    return Response(orders_json, mimetype='application/json')
 
 
 @app.route("/get_num_of_ordered_orders")
