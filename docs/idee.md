@@ -18,27 +18,50 @@ neue Nummer                      zeigt State an               ich nehm leute mit
  get_number <-------->                            <------>
 ```
 # Backlog
-- wieviel sind noch in der datenbank auf ORDERED ?
-  - funktion dafür implementieren im backend
-    - zum testen auch im frontend
-- endpoint
-  - der checked ob Einträge die auf Ordered sind älter sind als eine Zeit t
-    - wenn das so ist setze diese auf Invalid
+
+- package system python
+- alle rückgaben im backend müssen json sein,
+  -  Reponse Objekt (application/json)
+  - passend dazu im fron end
+- im frontend: Lambda funktion lernen
+  - httpGet und httpPost bekommen handler_functionen übergeben
+    - wenn get/post daten zurückliefern -> this.responseText
+	  - handler_function(this.responseText) ausgeführt
 - können wir sowas wie ne konfiguration mit einbauen
   - python backend.py my.config
     - Beispiel: https://github.com/majorx234/python-flask-restx-game-ratings
       - environment.py
+- endpoint
+  - Funktion zum invalidieren um Parameter t erweitern
+- tabellenkopf automatisiert erstellen
+  - input ist array: [id,timestampe, state]
+    - for loop die das macht
+- history 
+  - oben das neuste
+  - nicht einfach anhängen(append)
+    - DOM baum (first next sibling)
+- im Pizzabäcker frontend
+  - globale zeux wieder raus
+  - ich habe n viele pizzas
+    -erste funktion
+      - gib mir kronologisch die ältesten orders
+      - Ausgabe er IDs im Frontend-Console
+	    - plus button -> button click ruft zweite funktion auf
+		  - beim button erstellen des button funktions dranhängen
+		    - lambda funktion, die uuid der pizza mit hat
+			-  var myfunctio = () => { return pickup(121234) };
+			   - hat festen parameter uuid
+			- get elemetbyid.onclick = myfunction;
+	- zweite funktion: (ein parameter uuid)
+	   - bsp function pickup(uuid)
+       - setze diese auf picked Up
+
 - documentation in Bildchen
   - use case diagram
   - sequenzdiagram vom Ablauf
 - Documentation:
   Schema Front/Backend interaction (simple)
   - curl aufruf zum testen (Bild malen)
-
-- for near Zukunft
-  - eigentlich brauhcen wir zwei frontends
-    - eins für die Benutzer
-	- eins für Pizzabäcker
 
 - Naming 
   - 1.state was macht der?
@@ -47,23 +70,12 @@ neue Nummer                      zeigt State an               ich nehm leute mit
     - repäsentiert der wieviel aktuel abgeholt wurd 
 	- "taken_items"
 - kleine Pizza im Frontend (maybe) ;)
-- wie könnte man das mit `python warteapparat_backend.py`
-  - starten, sodass der shell befehl zum flask starten im Python skript ausgeführt wird
 - python package 
   - Requirements setup.py
-- was ist mit Menschen nicht abgeholt haben, nummer verbummelt???
-  - mechanismus der, wenn 1min(parameter) nicht abgeholt, nummer invalid
-  - ```
-1 2 3 4 5 6
-T I T F F F -> wie lang is schlange? schlange ist 3 lang
-```
-  - F -Ordered
-    T -Picked up
-	I -hats verschlafen
-    - wieviele "ordered" sind noch im dict? 
-  - zeitliche Abfolge mit Futures, Multitastking
-    - oder man macht zweiten thread der checkt wer is über die Zeit und dann invalid macht
-    - 3 zustände kann man mit enum machen (orderer, picked_up, invalid) 
+- zeitliche Abfolge mit Futures, Multitastking
+  - oder man macht zweiten thread der checkt wer is über die Zeit und dann invalid macht
+  - 3 zustände kann man mit enum machen (orderer, picked_up, invalid)
+- Einführung eines dritten Fronends für Kunden
 
 # Ausblick
 - Anbindung Datenbank
@@ -103,3 +115,11 @@ T I T F F F -> wie lang is schlange? schlange ist 3 lang
   `curl -H "Content-Type: application/json" --request POST -d '{"2nd_state":2}' "http://localhost:5000/post_sec_state"`
   `curl --request GET http://127.0.0.1:5000/add_sec_state`
   `curl --request GET http://127.0.0.1:5000/get_sec_state`	
+- Einführung eines Pizzabäckerfrontends
+- neue Funktion die checktob Orders nicht abgeholt wurden
+  - Order wird nach 5 minuten invalidiert
+- funktion um anzahl der orderer  ORDERED zu ermitteln ?
+  - funktion dafür im backend
+    - zum testen auch im frontend
+- starten des backends mit `python warteapparat_backend.py`
+  - flask app
