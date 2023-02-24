@@ -6,6 +6,27 @@ function outputToConsole(text) {
     para.scrollIntoView();
 }
 
+function tableOutputToConsole(text) {
+    var tbl = document.createElement("table");
+    var tblBody = document.createElement("tbody");
+
+    for(let i = 0; i < 1; i++) {
+        const row = document.createElement("tr");
+
+        for (let j = 0; j < text.length; j++) {
+            const cell = document.createElement("td");
+            const cellText = document.createTextNode(text[j]);
+            cell.appendChild(cellText);                       
+            row.appendChild(cell);
+        }
+        tblBody.appendChild(row);
+    }
+    tbl.appendChild(tblBody);
+    document.body.appendChild(tbl);
+    tbl.setAttribute("border", "2");
+}
+    
+
 function clearConsole() {
     document.getElementById("console").innerHTML = "";
 }
@@ -14,7 +35,7 @@ function httpGet(endpoint_name, variable_context) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            outputToConsole(variable_context + this.responseText);
+            tableOutputToConsole(this.responseText);
         }
     };
     var endpoint = "http://127.0.0.1:5000/" + endpoint_name;
