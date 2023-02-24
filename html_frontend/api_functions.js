@@ -110,6 +110,10 @@ function httpGetChangeOrderToInvalid() {
     httpGet("change_order_state_to_invalid", "changed_orders: ");
 }
 
+function httpGetClearDataFromTable() {
+    httpGet("clear_data_from_table", "is cleared: ");
+}
+
 outputToConsole("init");
 
 document.getElementById("place_order").onclick = function() {
@@ -130,7 +134,11 @@ document.getElementById("change_order_state").onclick = function() {
 
 document.getElementById("change_state_to_invalid").onclick = function() {
     httpGetChangeOrderToInvalid();
-}
+};
+
+document.getElementById("clear_table").onclick = function() {
+    httpGetClearDataFromTable();
+};
 
 document.getElementById("clear_console").onclick = function() {
     clearConsole();

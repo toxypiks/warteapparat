@@ -83,6 +83,15 @@ def change_order_state_to_invalid_fn():
     return "ok"
 
 
+def clear_data_in_table_fn():
+    conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
+    cur = conn.cursor()                                                                    
+    cur.execute("DELETE FROM orders")
+    conn.commit()
+    cur.close()  
+    conn.close()                                                                            
+    return "ok"
+
 @app.route("/get_all_orders")
 def get_all_orders():
     orders_json = get_all_orders_fn()
@@ -112,6 +121,12 @@ def change_order_state():
 @app.route("/change_order_state_to_invalid")
 def change_order_state_to_invalid():
     return_json = change_order_state_to_invalid_fn()
+    return return_json
+
+
+@app.route("/clear_data_from_table")
+def clear_data_from_table():
+    return_json = clear_data_in_table_fn()
     return return_json
 
 
