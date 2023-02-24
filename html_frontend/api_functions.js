@@ -106,6 +106,10 @@ function httpPostChangeOrderState() {
     httpPost("change_order_state", param_name, param_value);
 }
 
+function httpGetChangeOrderToInvalid() {
+    httpGet("change_order_state_to_invalid", "changed_orders: ");
+}
+
 outputToConsole("init");
 
 document.getElementById("place_order").onclick = function() {
@@ -123,6 +127,10 @@ document.getElementById("get_num_of_ordered_orders").onclick = function() {
 document.getElementById("change_order_state").onclick = function() {
     httpPostChangeOrderState();
 };
+
+document.getElementById("change_state_to_invalid").onclick = function() {
+    httpGetChangeOrderToInvalid();
+}
 
 document.getElementById("clear_console").onclick = function() {
     clearConsole();
