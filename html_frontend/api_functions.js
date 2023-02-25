@@ -53,18 +53,11 @@ function clearConsole() {
     document.getElementById("console").innerHTML = "";
 }
 
-function httpGet(endpoint_name, variable_context) {
+function httpGet(endpoint_name, variable_context, response_handler) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            // ToDo: für verschiede anfragen verschiedenes Handling
-            // register handler
-            if(variable_context == "all orders: ") {
-                var json_data = JSON.parse(this.responseText);
-                tableOutputToConsole(json_data);
-            } else {
-                outputToConsole(variable_context + this.responseText);
-            }          
+            response_handler(this.responseText);         
         }
     };
     var endpoint = "http://127.0.0.1:5000/" + endpoint_name;
@@ -84,20 +77,34 @@ function httpPost(endpoint_name, param_name, param_value, variable_context) {
     var endpoint = "http://127.0.0.1:5000/" + endpoint_name;
     xmlHttp.open("POST", endpoint, true);
     xmlHttp.setRequestHeader('Content-type', 'application/json');
-    var param_json = "{ \"" + param_name + "\" : \"" + param_value + "\" }"
+    var param_json = "{ \"" + param_name + "\" : \"" + param_value + "\" }";
     xmlHttp.send(param_json);
 }
 
 function httpGetAllOrders() {
-    httpGet("get_all_orders", "all orders: ");
+    var response_handler = (response_text) => {
+        var json_data = JSON.parse(response_text);
+        tableOutputToConsole(json_data);
+    };
+    httpGet("get_all_orders", "all orders: ", response_handler);
 }
 
 function httpGetNumOfOrderedOrders() {
-    httpGet("get_num_of_ordered_orders", "num of ordered orders: ");
+    var variable_context = "num of ordered orders: ";
+    var response_handler = (response_text) => {
+        var json_data = JSON.parse(response_text);
+        outputToConsole(variable_context + json_data);
+    };
+    httpGet("get_num_of_ordered_orders", variable_context, response_handler );
 }
 
 function httpPlaceOrder() {
-    httpGet("place_order", "place_order: ");
+    var variable_context = "place_order: ";
+    var response_handler = (response_text) => {
+        var json_data = JSON.parse(response_text);
+        outputToConsole(variable_context + json_data);
+    };
+    httpGet("place_order", variable_context, response_handler);
 }
 
 function httpPostChangeOrderState() {
@@ -113,7 +120,12 @@ function httpPostChangeOrderToInvalid() {
 }
 
 function httpGetClearDataFromTable() {
-    httpGet("clear_data_from_table", "is cleared: ");
+    var variable_context = "is cleared: ";
+    var response_handler = (response_text) => {
+        var json_data = JSON.parse(response_text);
+        outputToConsole(variable_context + json_data);
+    };
+    httpGet("clear_data_from_table", variable_context, response_handler);
 }
 
 outputToConsole("init");
