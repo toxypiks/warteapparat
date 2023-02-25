@@ -106,8 +106,10 @@ function httpPostChangeOrderState() {
     httpPost("change_order_state", param_name, param_value);
 }
 
-function httpGetChangeOrderToInvalid() {
-    httpGet("change_order_state_to_invalid", "changed_orders: ");
+function httpPostChangeOrderToInvalid() {
+    var param_value = document.getElementById("time_limit_input").value;
+    var param_name = "time_limit_for_pickup";
+    httpPost("change_order_state_to_invalid", param_name, param_value);
 }
 
 function httpGetClearDataFromTable() {
@@ -133,7 +135,7 @@ document.getElementById("change_order_state").onclick = function() {
 };
 
 document.getElementById("change_state_to_invalid").onclick = function() {
-    httpGetChangeOrderToInvalid();
+    httpPostChangeOrderToInvalid();
 };
 
 document.getElementById("clear_table").onclick = function() {
