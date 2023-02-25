@@ -75,11 +75,11 @@ def change_order_state_fn(order_uuid):
     return json.dumps("ok")
 
 
-def change_order_state_to_invalid_fn():
+def change_order_state_to_invalid_fn(time_limit):
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
     cur = conn.cursor()                                                                    
 
-    cur.execute("UPDATE orders SET state = 'INVALID' WHERE state = 'ORDERED' AND (EXTRACT (EPOCH FROM (CURRENT_TIMESTAMP - order_time))) > 300")
+    cur.execute("UPDATE orders SET state = 'INVALID' WHERE state = 'ORDERED' AND (EXTRACT (EPOCH FROM (CURRENT_TIMESTAMP - order_time))) > '{}';".format(time_limit))
 
     conn.commit()
     cur.close()  
@@ -132,9 +132,11 @@ def add_ready_pizzas():
     return Response(ready_pizzas, mimetype='application/json') 
 
 
-@app.route("/change_order_state_to_invalid")
+@app.route("/change_order_state_to_invalid", methods=['POST'])
 def change_order_state_to_invalid():
-    invalid_order_json = change_order_state_to_invalid_fn()
+    req_time = request.json
+    time_limit = req_time["time_limit_for_pickup"]
+    invalid_order_json = change_order_state_to_invalid_fn(time_limit)
     return Response(invalid_order_json, mimetype='application/json')
 
 
