@@ -65,13 +65,11 @@ function httpGet(endpoint_name, variable_context, response_handler) {
     xmlHttp.send(null);
 }
 
-function httpPost(endpoint_name, param_name, param_value, variable_context) {
+function httpPost(endpoint_name, param_name, param_value, variable_context, response_handler) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var jsonResponse = JSON.parse(this.responseText);
-            // ToDo
-            outputToConsole(variable_context + this.responseText);
+            response_handler(this.responseText);
         }
     };
     var endpoint = "http://127.0.0.1:5000/" + endpoint_name;
@@ -110,13 +108,23 @@ function httpPlaceOrder() {
 function httpPostChangeOrderState() {
     var param_value = document.getElementById("uuid_input").value;
     var param_name = "order_uuid";
-    httpPost("change_order_state", param_name, param_value);
+    var variable_context = "pizza state changed to picked up: ";
+    var response_handler = (response_text) => {
+        var json_data = JSON.parse(response_text);
+        outputToConsole(variable_context + json_data);
+    };
+    httpPost("change_order_state", param_name, param_value,variable_context, response_handler);
 }
 
 function httpPostChangeOrderToInvalid() {
     var param_value = document.getElementById("time_limit_input").value;
     var param_name = "time_limit_for_pickup";
-    httpPost("change_order_state_to_invalid", param_name, param_value);
+    var variable_context = "time limit to pick up pizza: ";
+    var response_handler = (response_text) => {
+        var json_data = JSON.parse(response_text);
+        outputToConsole(variable_context + json_data);
+    };
+    httpPost("change_order_state_to_invalid", param_name, param_value, variable_context, response_handler);
 }
 
 function httpGetClearDataFromTable() {
