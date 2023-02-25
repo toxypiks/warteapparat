@@ -20,13 +20,8 @@ neue Nummer                      zeigt State an               ich nehm leute mit
 # Backlog
 
 - package system python
-- alle rückgaben im backend müssen json sein,
-  -  Reponse Objekt (application/json)
-  - passend dazu im fron end
-- im frontend: Lambda funktion lernen
-  - httpGet und httpPost bekommen handler_functionen übergeben
-    - wenn get/post daten zurückliefern -> this.responseText
-	  - handler_function(this.responseText) ausgeführt
+  -oldschool setup.py
+  - newschool toml-dateien
 - können wir sowas wie ne konfiguration mit einbauen
   - python backend.py my.config
     - Beispiel: https://github.com/majorx234/python-flask-restx-game-ratings
@@ -123,3 +118,9 @@ neue Nummer                      zeigt State an               ich nehm leute mit
     - zum testen auch im frontend
 - starten des backends mit `python warteapparat_backend.py`
   - flask app
+- alle rückgaben im backend müssen json sein,
+  -  Reponse Objekt (application/json)
+  - passend dazu im fron end
+- httpGet und httpPost bekommen handler_functionen übergeben
+  - wenn get/post daten zurückliefern -> this.responseText
+  - handler_function(this.responseText) ausgeführt
