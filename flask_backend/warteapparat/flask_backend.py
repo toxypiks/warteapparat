@@ -42,7 +42,7 @@ def place_order_fn():
     conn.commit()
     cur.close()
     conn.close()
-    return jsonify(order_uuid)
+    return json.dumps(order_uuid)
 
 
 def get_all_orders_fn():
@@ -62,7 +62,7 @@ def get_num_of_ordered_orders_fn():
     records = cur.fetchall()
     cur.close()
     conn.close()
-    return "{}".format(records)
+    return json.dumps(records)
     
 
 def change_order_state_fn(order_uuid):
@@ -72,7 +72,7 @@ def change_order_state_fn(order_uuid):
     conn.commit()
     cur.close()                                                                            
     conn.close()                                                                           
-    return "ok"
+    return json.dumps("ok")
 
 
 def change_order_state_to_invalid_fn():
@@ -84,7 +84,7 @@ def change_order_state_to_invalid_fn():
     conn.commit()
     cur.close()  
     conn.close()                                                                            
-    return "ok"
+    return json.dumps("ok")
 
 
 def clear_data_in_table_fn():
@@ -94,7 +94,8 @@ def clear_data_in_table_fn():
     conn.commit()
     cur.close()  
     conn.close()                                                                            
-    return "ok"
+    return json.dumps("ok")
+
 
 @app.route("/get_all_orders")
 def get_all_orders():
@@ -104,14 +105,14 @@ def get_all_orders():
 
 @app.route("/get_num_of_ordered_orders")
 def get_num_of_ordered_orders():
-    return_json = get_num_of_ordered_orders_fn()
-    return return_json
+    num_orders_json = get_num_of_ordered_orders_fn()
+    return Response(num_orders_json, mimetype='application/json')
 
 
 @app.route("/place_order")
 def place_order():
-    return_json = place_order_fn()
-    return return_json
+    place_order_json = place_order_fn()
+    return Response(place_order_json, mimetype='application/json') 
 
 
 @app.route("/change_order_state", methods=['POST'])
@@ -119,7 +120,7 @@ def change_order_state():
     req_uuid = request.json
     order_uuid = req_uuid["order_uuid"]
     change_order_state_fn(order_uuid)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+    return Response("ok", mimetype='application/json') 
 
 # deliverer frontend endpoint
 @app.route("/add_ready_pizzas", methods=['POST'])
@@ -128,19 +129,19 @@ def add_ready_pizzas():
     number_of_pizzas = req_number["number_ready_pizzas"]
     with ready_pizzas.get_lock():
         ready_pizzas.value += int(number_of_pizzas)
-    return "{}".format(ready_pizzas)
+    return Response(ready_pizzas, mimetype='application/json') 
 
 
 @app.route("/change_order_state_to_invalid")
 def change_order_state_to_invalid():
-    return_json = change_order_state_to_invalid_fn()
-    return return_json
+    invalid_order_json = change_order_state_to_invalid_fn()
+    return Response(invalid_order_json, mimetype='application/json')
 
 
 @app.route("/clear_data_from_table")
 def clear_data_from_table():
-    return_json = clear_data_in_table_fn()
-    return return_json
+    clear_data_json = clear_data_in_table_fn()
+    return Response(clear_data_json, mimetype='application/json')
 
 
 def main():
