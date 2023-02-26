@@ -2,7 +2,7 @@ function outputToConsole(text) {
     var para = document.createElement("p");
     var node = document.createTextNode(text);
     para.appendChild(node);
-    document.getElementById("console").appendChild(para);
+    document.getElementById("console").prepend(para);
     para.scrollIntoView();
 }
 
@@ -37,7 +37,8 @@ function tableOutputToConsole(json_data, row_header) {
     }
     tbl.appendChild(tblBody);
     tbl.setAttribute("border", "2");
-    document.getElementById("console").appendChild(tbl);
+    tbl.setAttribute("id","output_table");
+    document.getElementById("console").prepend(tbl);
 }
     
 
