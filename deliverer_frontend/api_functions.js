@@ -43,10 +43,6 @@ function clearConsole() {
     document.getElementById("console").innerHTML = "";
 }
 
-function clearConsole() {
-    document.getElementById("console").innerHTML = "";
-}
-
 function httpGet(endpoint_name, variable_context, response_handler) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -73,12 +69,6 @@ function httpPost(endpoint_name, param_name, param_value, variable_context, resp
     xmlHttp.send(param_json);
 }
 
-function httpPostNumberOfReadyPizzas() {
-    var param_value = document.getElementById("number_ready_pizzas").value;
-    var param_name = "number_ready_pizzas"
-    httpPost("add_ready_pizzas", param_name, param_value);
-}
-
 function httpGetAllOrderedOrdersSortedByOrderTime() {
     var response_handler = (response_text) => {
         var json_data = JSON.parse(response_text);
@@ -89,10 +79,6 @@ function httpGetAllOrderedOrdersSortedByOrderTime() {
 }
 
 outputToConsole("init");
-
-document.getElementById("send_number_of_ready_pizzas").onclick = function() {
-    httpPostNumberOfReadyPizzas();
-}
 
 document.getElementById("show_sorted_orders").onclick = function() {
     httpGetAllOrderedOrdersSortedByOrderTime();

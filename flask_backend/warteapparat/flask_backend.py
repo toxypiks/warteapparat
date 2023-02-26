@@ -6,7 +6,6 @@ from datetime import datetime
 from enum import Enum
 from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
-from multiprocessing import Value
 
 
 class DateEncoder(json.JSONEncoder):
@@ -19,8 +18,6 @@ class DateEncoder(json.JSONEncoder):
 
 app = Flask(__name__)
 CORS(app)
-
-ready_pizzas = Value('i', 0)
 
 
 class OrderState(Enum):
@@ -137,15 +134,6 @@ def change_order_state():
     order_uuid = req_uuid["order_uuid"]
     change_order_state_fn(order_uuid)
     return Response("ok", mimetype='application/json') 
-
-# deliverer frontend endpoint
-@app.route("/add_ready_pizzas", methods=['POST'])
-def add_ready_pizzas():
-    req_number = request.json
-    number_of_pizzas = req_number["number_ready_pizzas"]
-    with ready_pizzas.get_lock():
-        ready_pizzas.value += int(number_of_pizzas)
-    return Response(ready_pizzas, mimetype='application/json') 
 
 
 @app.route("/change_order_state_to_invalid", methods=['POST'])
