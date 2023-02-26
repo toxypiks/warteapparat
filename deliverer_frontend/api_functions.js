@@ -42,10 +42,18 @@ function httpPostNumberOfReadyPizzas() {
     httpPost("add_ready_pizzas", param_name, param_value);
 }
 
+function httpGetAllOrderedOrdersSortedByOrderTime() {
+    httpGet("get_ordered_orders_sorted_by_order_time", "all orders sorted by order time: ");
+}
+
 outputToConsole("init");
 
 document.getElementById("send_number_of_ready_pizzas").onclick = function() {
     httpPostNumberOfReadyPizzas();
+}
+
+document.getElementById("show_sorted_orders").onclick = function() {
+    httpGetAllOrderedOrdersSortedByOrderTime();
 }
 
 document.getElementById("clear_console").onclick = function() {
