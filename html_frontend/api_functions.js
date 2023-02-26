@@ -7,27 +7,19 @@ function outputToConsole(text) {
 }
 
 
-function tableOutputToConsole(json_data) {
+function tableOutputToConsole(json_data, row_header) {
     var datensaetze = json_data;
     var tbl = document.createElement("table");
-    var tblh_tr = document.createElement("tr");
     var tblBody = document.createElement("tbody");
-    var tblh_order_id = document.createElement("th");
-    var tblh_timestamp = document.createElement("th");
-    var tblh_order_state = document.createElement("th");
     var tblheader = document.createElement("thead");
+    var tblh_tr = document.createElement("tr");
 
-    const order_id_text = document.createTextNode("Order ID");
-    const order_timestamp_text = document.createTextNode("Order Time");
-    const order_state_text = document.createTextNode("Order State");
-
-    tblh_order_id.appendChild(order_id_text);
-    tblh_timestamp.appendChild(order_timestamp_text);
-    tblh_order_state.appendChild(order_state_text);
-
-    tblh_tr.appendChild(tblh_order_id);
-    tblh_tr.appendChild(tblh_timestamp);
-    tblh_tr.appendChild(tblh_order_state);
+    for (let x = 0; x < row_header.length; x++) {
+        const row_header_text = document.createTextNode(row_header[x]);
+        var tblh_element = document.createElement("th");
+        tblh_element.appendChild(row_header_text);
+        tblh_tr.appendChild(tblh_element);
+    }
 
     tblheader.appendChild(tblh_tr);
     tbl.appendChild(tblheader);
@@ -82,7 +74,8 @@ function httpPost(endpoint_name, param_name, param_value, variable_context, resp
 function httpGetAllOrders() {
     var response_handler = (response_text) => {
         var json_data = JSON.parse(response_text);
-        tableOutputToConsole(json_data);
+        var table_header = ["Order ID", "Order Time", "Order State"];
+        tableOutputToConsole(json_data, table_header);
     };
     httpGet("get_all_orders", "all orders: ", response_handler);
 }
