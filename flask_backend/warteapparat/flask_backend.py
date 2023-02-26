@@ -63,6 +63,16 @@ def get_num_of_ordered_orders_fn():
     cur.close()
     conn.close()
     return json.dumps(records)
+
+
+def get_all_ordered_orders_sorted_by_order_time_fn():
+    conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM orders WHERE state = 'ORDERED' ORDER BY order_time DESC")
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return json.dumps(records, cls=DateEncoder)
     
 
 def change_order_state_fn(order_uuid):
@@ -107,6 +117,12 @@ def get_all_orders():
 def get_num_of_ordered_orders():
     num_orders_json = get_num_of_ordered_orders_fn()
     return Response(num_orders_json, mimetype='application/json')
+
+
+@app.route("/get_ordered_orders_sorted_by_order_time")
+def get_ordered_orders_sorted_by_order_time():
+    sorted_orders_json = get_all_ordered_orders_sorted_by_order_time_fn()
+    return Response(sorted_orders_json, mimetype='application/json')
 
 
 @app.route("/place_order")
