@@ -37,7 +37,12 @@ function tableOutputToConsole(json_data, row_header) {
     }
     tbl.appendChild(tblBody);
     tbl.setAttribute("border", "2");
-    document.getElementById("console").appendChild(tbl);
+    tbl.setAttribute("id","output_table");
+    //let table_output = document.getElementById("output_table");
+    //let nextSibling = table_output.nextElementSibling;
+    let test = document.getElementById("output_table");
+    //document.getElementById("console").appendChild(test);
+    console.log(test.nextElementSibling);
 }
     
 
