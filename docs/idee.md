@@ -19,8 +19,13 @@ neue Nummer                      zeigt State an               ich nehm leute mit
 ```
 # Backlog
 
+- test python code
+  - für threading
+- Einführung eines dritten Fronends für Kunden
+- unit tests mit python
+
 - package system python
-  -oldschool setup.py
+  - oldschool setup.py
   - newschool toml-dateien
 - können wir sowas wie ne konfiguration mit einbauen
   - python backend.py my.config
@@ -28,28 +33,51 @@ neue Nummer                      zeigt State an               ich nehm leute mit
       - environment.py
 - endpoint
   - Funktion zum invalidieren um Parameter t erweitern
-- tabellenkopf automatisiert erstellen
-  - input ist array: [id,timestampe, state]
-    - for loop die das macht
-- history 
-  - oben das neuste
-  - nicht einfach anhängen(append)
-    - DOM baum (first next sibling)
-- im Pizzabäcker frontend
-  - globale zeux wieder raus
-  - ich habe n viele pizzas
-    -erste funktion
-      - gib mir kronologisch die ältesten orders
-      - Ausgabe er IDs im Frontend-Console
+  - Funktion (Pizza fertig)
+    - holt n ordered Pizzas ran
+	  - pizza in Datenbank auf ready gesetzt werden
+	- im Bäckerfront Buttons erstellt werden	
+      - Ausgabe der IDs im Frontend-Console
 	    - plus button -> button click ruft zweite funktion auf
 		  - beim button erstellen des button funktions dranhängen
 		    - lambda funktion, die uuid der pizza mit hat
-			-  var myfunctio = () => { return pickup(121234) };
+			-  var myfunctio = () => { return pickup(uuid) };
 			   - hat festen parameter uuid
+			   - im Backend status ready auf pickedup
 			- get elemetbyid.onclick = myfunction;
 	- zweite funktion: (ein parameter uuid)
 	   - bsp function pickup(uuid)
        - setze diese auf picked Up
+- lamdas sind cool:
+```
+function outputToConsole2() {
+    outputToConsole("lalala");
+}
+
+outputToConsole("init");
+
+var huhuhu_id = 0;
+
+document.getElementById("wasisdas").onclick = outputToConsole2;
+document.getElementById("wasisdasnicht").onclick = () => {
+    outputToConsole("huhuhu" + huhuhu_id);
+    huhuhu_id =  huhuhu_id + 1;
+};
+
+document.getElementById("weisichnichtdigger").onclick = () => {
+    outputToConsole("huhuhu" + huhuhu_id);
+    huhuhu_id =  huhuhu_id + 1;
+};
+```
+
+- customer_backend
+  - mit placeOrder -> UUID => UUID merken (in globaler variable)
+  - status UUID? (ist die fertig)
+  
+- Pizze life cycle (wir brauchen neuen zsutand)
+  - orderer -> ready -> pickedup
+    - wenn zu lange dann invalid
+    - nach zeit auf ready, im Button beim Pizzabäcler von ready auf pickedup  
 
 - documentation in Bildchen
   - use case diagram
@@ -70,7 +98,6 @@ neue Nummer                      zeigt State an               ich nehm leute mit
 - zeitliche Abfolge mit Futures, Multitastking
   - oder man macht zweiten thread der checkt wer is über die Zeit und dann invalid macht
   - 3 zustände kann man mit enum machen (orderer, picked_up, invalid)
-- Einführung eines dritten Fronends für Kunden
 
 # Ausblick
 - Anbindung Datenbank
@@ -124,3 +151,14 @@ neue Nummer                      zeigt State an               ich nehm leute mit
 - httpGet und httpPost bekommen handler_functionen übergeben
   - wenn get/post daten zurückliefern -> this.responseText
   - handler_function(this.responseText) ausgeführt
+- tabellenkopf automatisiert erstellen
+  - input ist array: [id,timestampe, state]
+    - for loop die das macht
+- history 
+  - oben das neuste
+  - nicht einfach anhängen(append)
+- im Pizzabäcker frontend
+  - globale zeux wieder raus
+  - ich habe n viele pizzas
+    -erste funktion
+      - gib mir kronologisch die ältesten orders
