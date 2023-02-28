@@ -72,7 +72,7 @@ function httpPost(endpoint_name, param_name, param_value, variable_context, resp
 function httpGetAllOrderedOrdersSortedByOrderTime() {
     var response_handler = (response_text) => {
         var json_data = JSON.parse(response_text);
-        var table_header = ["Order ID", "Order Time", "Order State"];
+        var table_header = ["Order ID"];
         tableOutputToConsole(json_data, table_header);
     };
     httpGet("get_ordered_orders_sorted_by_order_time", "all orders sorted by order time: ", response_handler);

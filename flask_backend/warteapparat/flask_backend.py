@@ -65,7 +65,7 @@ def get_num_of_ordered_orders_fn():
 def get_all_ordered_orders_sorted_by_order_time_fn():
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
     cur = conn.cursor()
-    cur.execute("SELECT * FROM orders WHERE state = 'ORDERED' ORDER BY order_time DESC")
+    cur.execute("SELECT order_id FROM orders WHERE state = 'ORDERED' ORDER BY order_time DESC")
     records = cur.fetchall()
     cur.close()
     conn.close()
