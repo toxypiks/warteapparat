@@ -6,7 +6,12 @@ from datetime import datetime
 from enum import Enum
 from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
+from dataclasses import dataclass
+from dacite import from_dict
 
+@dataclass
+class Config:
+    port: int = 0
 
 class DateEncoder(json.JSONEncoder):
 
@@ -151,7 +156,15 @@ def clear_data_from_table():
 
 
 def main():
-    app.run(debug=True, port=5000, host='0.0.0.0')    
+    # config.json laden
+    config_data = {}
+    with open('config.json') as config_json_file:
+        config_data = json.load(config_json_file)
+    config = from_dict(data_class=Config, data=config_data)        
+    # config als dict
+    # dict as config-object
+    print("port: {}".format(config.port))
+    app.run(debug=True, port=config.port, host='0.0.0.0')    
 
 
 if __name__ == '__main__':
