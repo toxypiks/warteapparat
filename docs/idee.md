@@ -18,6 +18,19 @@ neue Nummer                      zeigt State an               ich nehm leute mit
  get_number <-------->                            <------>
 ```
 # Backlog
+- statische auswertung
+  - müssen uns bei jeder bestellung merken -> Zeitstempel
+  - durchschnitt wie lang hats von einer pizza zur nächsten gedauert
+  - diesen auf alle Betsellungen hochrechnen -> endpoint
+  - nur den letzten (order by day)
+    - und auch nur die von heute
+  - feature sonderbehandlung Schichtwechsel (Special Events)
+
+- Feedback vom Pizzazirkus:
+  - Anzeige direkt im wartebereich
+    - Anzeige auf Bildschirm
+	- soll zeigen wie lange einzelne Nummern warten müssen
+
 
 - test python code
   - für threading
@@ -30,7 +43,10 @@ neue Nummer                      zeigt State an               ich nehm leute mit
 - können wir sowas wie ne konfiguration mit einbauen
   - python backend.py my.config
     - Beispiel: https://github.com/majorx234/python-flask-restx-game-ratings
-      - environment.py
+      - environment.py 
+	    - port
+		- debug/release mode
+		- zukunft nochmal anschauen <-in dem Beispiel gibt es noch ein paar Parameter die wir bei uns mit einbauen können
 - endpoint
   - Funktion zum invalidieren um Parameter t erweitern
   - Funktion (Pizza fertig)
