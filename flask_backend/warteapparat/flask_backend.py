@@ -109,6 +109,17 @@ def clear_data_in_table_fn():
     return json.dumps("ok")
 
 
+def get_timestamp_ten_last_orders_fn():
+    conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
+    cur = conn.cursor()                                                                    
+    cur.execute("SELECT order_id, order_time FROM orders WHERE EXTRACT(DAY FROM order_time) = EXTRACT(DAY FROM CURRENT_DATE) AND NOT state = 'PICKEDUP' LIMIT 10;")
+    conn.commit()   
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return json.dumps(records, cls=DateEncoder)
+        
+
 @app.route("/get_all_orders")
 def get_all_orders():
     orders_json = get_all_orders_fn()
@@ -154,6 +165,17 @@ def clear_data_from_table():
     clear_data_json = clear_data_in_table_fn()
     return Response(clear_data_json, mimetype='application/json')
 
+#@app.route("/get_average_prep_time")
+
+#@app.route("/get_prep_time_next_ten_orders")
+
+@app.route("/get_timestamp_ten_last_orders_debug")
+def get_timestamp_ten_last_orders_debug():
+    last_ten_orders_json = get_timestamp_ten_last_orders_fn()
+    print(last_ten_orders_json)
+    return Response(last_ten_orders_json, mimetype='application/json')
+    
+    
 
 def main():
     # config.json laden
