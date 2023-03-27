@@ -26,11 +26,23 @@ neue Nummer                      zeigt State an               ich nehm leute mit
     - und auch nur die von heute
   - feature sonderbehandlung Schichtwechsel (Special Events)
 
-- Feedback vom Pizzazirkus:
+- Feedback vom Pizzazirkus: 3tes Frontend
   - Anzeige direkt im wartebereich
     - Anzeige auf Bildschirm
 	- soll zeigen wie lange einzelne Nummern warten müssen
-
+- WIP: 
+  - neue Spalte für pickend_up_time
+  - neue funktion frontend/backend:
+    - Zeige uns alle noch nicht abgeholten Orders an
+  - ToDo: 
+    - diese Orders sollen mit einem Estimated Time -Feld angezeigt werden
+    - woher estimated time?
+	  - für letzten 10 Orders: order_duration[i] = EPOCH ordered_time - picked_up_time
+      - Durchschnitt von order_duration[] berechnen => average_order_duration
+	- estimated_time[i] = i* average_order_duration
+	  - i=0 nächste  (bsp 1*5min)
+	  - i=1 die übernächste (bsp 2*5min)
+	  - müssen wir bei Ausgabe irgendwie ans Json Object dranflanschen
 
 - test python code
   - für threading
