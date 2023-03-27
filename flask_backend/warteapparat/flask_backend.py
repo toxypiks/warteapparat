@@ -30,11 +30,11 @@ class OrderState(Enum):
     PICKEDUP = 2
     INVALID = 3
 
-    
+
 def place_order_fn():
-    current_time = datetime.now()                          
-    time_stamp = current_time.timestamp()                  
-    date_time = datetime.fromtimestamp(time_stamp)          
+    current_time = datetime.now()
+    time_stamp = current_time.timestamp()
+    date_time = datetime.fromtimestamp(time_stamp)
     str_date_time = date_time.strftime("%Y-%m-%d %H:%M:%S")
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
     cur = conn.cursor()
@@ -75,12 +75,17 @@ def get_all_ordered_orders_sorted_by_order_time_fn():
     cur.close()
     conn.close()
     return json.dumps(records, cls=DateEncoder)
-    
+
 
 def change_order_state_fn(order_uuid):
+    current_time = datetime.now()
+    time_stamp = current_time.timestamp()
+    date_time = datetime.fromtimestamp(time_stamp)
+    str_date_time = date_time.strftime("%Y-%m-%d %H:%M:%S")
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
     cur = conn.cursor()                                                                    
     cur.execute("UPDATE orders SET state = 'PICKEDUP' WHERE order_id = '{}';".format(order_uuid))
+    cur.execute("UPDATE orders SET picked_up_time = '{}' WHERE order_id = '{}';".format(str_date_time, order_uuid))
     conn.commit()
     cur.close()                                                                            
     conn.close()                                                                           
@@ -94,7 +99,7 @@ def change_order_state_to_invalid_fn(time_limit):
     cur.execute("UPDATE orders SET state = 'INVALID' WHERE state = 'ORDERED' AND (EXTRACT (EPOCH FROM (CURRENT_TIMESTAMP - order_time))) > '{}';".format(time_limit))
 
     conn.commit()
-    cur.close()  
+    cur.close()
     conn.close()                                                                            
     return json.dumps("ok")
 
@@ -104,21 +109,21 @@ def clear_data_in_table_fn():
     cur = conn.cursor()                                                                    
     cur.execute("DELETE FROM orders")
     conn.commit()
-    cur.close()  
+    cur.close()
     conn.close()                                                                            
     return json.dumps("ok")
 
 
 def get_timestamp_ten_last_orders_fn():
     conn = psycopg2.connect("dbname='warteapparatdb' user='warteapparat' host='localhost'")
-    cur = conn.cursor()                                                                    
+    cur = conn.cursor()
     cur.execute("SELECT order_id, order_time FROM orders WHERE EXTRACT(DAY FROM order_time) = EXTRACT(DAY FROM CURRENT_DATE) AND NOT state = 'PICKEDUP' LIMIT 10;")
-    conn.commit()   
+    conn.commit()
     records = cur.fetchall()
     cur.close()
     conn.close()
     return json.dumps(records, cls=DateEncoder)
-        
+
 
 @app.route("/get_all_orders")
 def get_all_orders():
@@ -141,7 +146,7 @@ def get_ordered_orders_sorted_by_order_time():
 @app.route("/place_order")
 def place_order():
     place_order_json = place_order_fn()
-    return Response(place_order_json, mimetype='application/json') 
+    return Response(place_order_json, mimetype='application/json')
 
 
 @app.route("/change_order_state", methods=['POST'])
@@ -149,7 +154,7 @@ def change_order_state():
     req_uuid = request.json
     order_uuid = req_uuid["order_uuid"]
     change_order_state_fn(order_uuid)
-    return Response("ok", mimetype='application/json') 
+    return Response("ok", mimetype='application/json')
 
 
 @app.route("/change_order_state_to_invalid", methods=['POST'])
@@ -174,19 +179,18 @@ def get_timestamp_ten_last_orders_debug():
     last_ten_orders_json = get_timestamp_ten_last_orders_fn()
     print(last_ten_orders_json)
     return Response(last_ten_orders_json, mimetype='application/json')
-    
-    
+
 
 def main():
     # config.json laden
     config_data = {}
     with open('config.json') as config_json_file:
         config_data = json.load(config_json_file)
-    config = from_dict(data_class=Config, data=config_data)        
+    config = from_dict(data_class=Config, data=config_data)
     # config als dict
     # dict as config-object
     print("port: {}".format(config.port))
-    app.run(debug=True, port=config.port, host='0.0.0.0')    
+    app.run(debug=True, port=config.port, host='0.0.0.0')
 
 
 if __name__ == '__main__':
